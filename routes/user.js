@@ -11,7 +11,7 @@ module.exports = app => {
     res.send("hi there")
   });
 
-  app.post('/register', async (req,res)=> {
+  app.post('/api/register', async (req,res)=> {
     const user = await User.findOne({ email: req.body.email });
 
     if(user){
@@ -42,7 +42,7 @@ module.exports = app => {
     }
   });
 
-  app.post('/login', async (req,res)=> {
+  app.post('/api/login', async (req,res)=> {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -77,7 +77,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/current_user', passport.authenticate('jwt', { session: false }), (req,res)=>{
+  app.get('/api/current_user', passport.authenticate('jwt', { session: false }), (req,res)=>{
     res.json({ 
       id: req.user.id,
       name: req.user.name,
