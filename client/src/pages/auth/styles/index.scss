@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #31353D;
+  justify-content: center;
+  align-items: center;
+
+  .loginForm {
+    height: 65vh;
+    background-color:#92CDCF;
+    width: 50vw;
+    max-height: 65vh;
+
+    .landing {
+      background-color: #445878;
+
+      .content{
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        flex-direction: column;
+
+        h2 {
+          padding: 0px 10px 0px 30px;
+          font-size: 1.5em;
+          color:white;
+
+          h3{
+            color: white;
+            font-weight: 100;
+          }
+        }
+
+        .list {
+          padding:0px 30px 40px 30px;
+
+          .item{
+            color:white;
+            margin-bottom: 12px;
+          }
+        }
+      }
+    }
+
+    .form{
+      background-color: #EEEFF7;
+
+      .formContent {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        flex-direction: column;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+
+        .input {
+          margin-bottom: 8px;
+          width: 20.7em;
+        }
+
+        .btn {
+          color: white;
+          margin-top: 5px;
+          background-color: purple;
+        }
+
+        .btn:hover{
+          background-color: darkmagenta;
+        }
+
+      }
+    }
+  }
+
+}

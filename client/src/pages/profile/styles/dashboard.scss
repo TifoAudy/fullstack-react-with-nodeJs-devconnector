@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  height: 100vh;
+
+  .profileContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    .profile {
+      display: flex;
+      margin-top: 44px;
+      padding: 4em;
+      border: 1px solid lightskyblue;
+      width: 55vw;
+
+      .description {
+        margin-left: 40px;
+        margin-right: 90px;
+        width: 100%;
+        .header{
+
+          h1 {
+            margin: 0;
+            font-weight: 100;
+
+            .name {
+              display: block;
+              font-size: 30px;
+              color:#31353D;
+            }
+            .bio {
+              font-size: 20px;
+              color: #445878;
+            }
+          }
+        }
+      }
+
+      .biodata {
+
+        h1{
+          margin: 0;
+          font-size: 15px;
+
+          .wrapper {
+            margin-bottom: 20px;
+
+            .label {
+              display: block;
+              color:#31353D;
+            }
+            .value {
+              font-weight: 100;
+              color: #445878;
+            }
+          }
+        }
+      }
+
+      .btngroup {
+        display: block;
+      }
+    }
+    
+    
+  }
+
+}

@@ -1,21 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import setAuthToken from './utils/setAuthToken';
+import jwt_decode from 'jwt-decode';
+import store from './store';
+import * as actions from './action/index';
+import { LOGIN_USER } from './action/type';
+import Landing from './pages/landing/Landing';
+import Auth from './pages/auth/Auth';
+import Profile from './pages/profile/Profile';
+import EditProfile from './pages/profile/EditProfile';
+import Home from './pages/home/Home';
+import PrivateRoute from './Routes'; 
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+
+if(localStorage.jwtToken){
+  setAuthToken(localStorage.jwtToken);
+  const decoded = jwt_decode(localStorage.jwtToken);
+  store.dispatch({
+    type: LOGIN_USER,
+    payload: decoded
+  })
 }
 
-export default App;
+class App extends Component {
+  render(){
+    return(
+      <div>
+        <BrowserRouter>
+          <div>
+            <Route path="/" component={Landing} exact />
+            <Route path="/auth" component={Auth} exact />
+            <Switch>
+              <PrivateRoute path="/user" component={Profile} exact />
+            </Switch>
+            <Switch>
+              <PrivateRoute path="/home" component={Home} exact />
+            </Switch>
+            <Switch>
+              <PrivateRoute path="/user/edit_profile" component={EditProfile} exact />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </div>
+    );
+  };
+}
+
+export default connect(null,actions)(App)

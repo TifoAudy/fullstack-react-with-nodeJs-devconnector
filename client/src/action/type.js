@@ -1,0 +1,11 @@
+export const LOGIN_USER = 'login_api';
+export const FETCH_USER = 'fetch_user';
+export const AUTH_FAILED = 'auth_failed';
+export const FETCH_PROFILE = 'fetch_profile';
+export const FETCH_POST = 'fetch_post';
+export const NEW_POST = 'new_post';
+export const ADD_POST = 'add_post';
+export const NEW_COMMENT = 'new_comment';
+export const ADD_COMMENT = 'add_comment';
+export const GET_POSTS = 'get_posts';
+export const TOGGLE_LIKE = 'toggle_like';
