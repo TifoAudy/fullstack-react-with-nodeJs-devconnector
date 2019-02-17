@@ -4,7 +4,7 @@ const Profile = require('../models/Profile');
 module.exports = app => {
 
   //get current user's profile
-  app.get('/profile', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  app.get('/api/profile', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id }).populate('user',['name','avatar']);
 
     if (!profile) {
@@ -16,11 +16,12 @@ module.exports = app => {
     res.json(profile);
   });
 
-  app.post('/profile', passport.authenticate('jwt', { session: false }),
+  app.post('/api/profile', passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       //get fields
       const profileFields = {};
       profileFields.user = req.user.id;
+      profileFields.username = req.body.name;
       profileFields.handle = (req.body.handle) ? req.body.handle : '';
       profileFields.company = (req.body.company) ? req.body.company : '';
       profileFields.website = (req.body.website) ? req.body.website : '';
@@ -28,7 +29,7 @@ module.exports = app => {
       profileFields.bio = (req.body.bio) ? req.body.bio : '';
       profileFields.status = (req.body.status) ? req.body.status : '';
       profileFields.github = (req.body.github) ? req.body.github : '';
-      profileFields.skills = (req.body.skills !== undefined) ? req.body.skills.split(',') : '';
+      profileFields.skills = (req.body.skills !== undefined) ? req.body.skills : '';
       profileFields.social = {
         youtube: (req.body.youtube) ? req.body.youtube : '',
         instagram: (req.body.instagram) ? req.body.instagram : '',
@@ -62,7 +63,7 @@ module.exports = app => {
     }
   );
 
-  app.get('/profile/handle/:handle', async (req,res)=>{
+  app.get('/api/profile/handle/:handle', async (req,res)=>{
     const handle = await Profile.findOne({ handle: req.params.handle}).populate('user', ['name','avatar']);
 
     if(!handle){
@@ -72,7 +73,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/profile/user_id/:user_id', async (req,res)=>{
+  app.get('/api/profile/user_id/:user_id', async (req,res)=>{
     const id = await Profile.findOne({ _id : req.params.user_id }).populate('user', ['name','avatar']);
 
     if(!id){
@@ -81,10 +82,4 @@ module.exports = app => {
       res.json(id);
     }
   });
-
-
-
-
-
-
 }

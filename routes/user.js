@@ -69,19 +69,20 @@ module.exports = app => {
       },(err, token )=>{
         res.json({
           success: true,
-          token: 'Bearer ' + token
+          token: 'bearer ' + token
         })
       });
     }else{
-      return res.status(400).json({ password: "password incorrect" });
+      return res.send({ password: "password incorrect" });
     }
   });
 
-  app.get('/api/current_user', passport.authenticate('jwt', { session: false }), (req,res)=>{
-    res.json({ 
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email
-    });
+  app.get('/api/current_user',passport.authenticate('jwt', { session: false }),(req,res)=>{
+    res.send(req.user);
   });
+
+  app.get('/api/logout', (req,res)=>{
+    req.logout();
+    res.redirect('/');
+  })
 }

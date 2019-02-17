@@ -6,6 +6,12 @@ const ProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users' //reference collection in mongodb
   },
+  username: {
+    type: String,
+    required: true,
+    max: 40,
+    default: 'User'
+  },
   handle: {
     type: String,
     required: true,

@@ -8,22 +8,23 @@ module.exports = app => {
     res.json({ message: "post work" })
   });
 
+  //create a post
   app.post('/api/post', passport.authenticate('jwt', { session: false }), async (req, res) => {
 
-    const createPost = new Post({
+    const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id
     });
 
-    const newPost = await createPost.save();
+    await newPost.save();
     res.json(newPost);
   });
 
-  //fetch all post
+  //get all posts
   app.get('/api/post', async (req,res) => {
-    const post = await Post.find().sort({ date: -1 });
+    const post = await Post.find().populate('user',['name','avatar']).sort({ date: -1 });
 
     if(!post){
       return res.status(401).json({ error: 'there are no post'})
@@ -40,7 +41,6 @@ module.exports = app => {
     }else{
       res.json(post)
     }
-
   });
 
   //delete post
@@ -52,12 +52,11 @@ module.exports = app => {
     }
 
     deletedPost.remove().then(()=>res.json({ message: 'delete post is success'}));
-    
   });
 
   //add like to the post
   app.post('/api/post/like/:id', passport.authenticate('jwt', { session: false }), async(req,res)=>{
-    let post = await Post.findOne({ user: req.params.id });
+    let post = await Post.findById(req.params.id);
 
     if(!post){
       return res.status(401).json({ error: 'there is no post'});
@@ -65,10 +64,14 @@ module.exports = app => {
 
     if((post.likes.filter(like => like.user.toString() === req.user.id)) < 1){
       post.likes.push({ user: req.user });
-      const updatedPost = await post.save();
-      res.json(updatedPost);
+      await post.save();
+      
+      res.json(post);
     }else{
-      res.status(400).json({ error: 'already like it'});
+      post.likes = post.likes.filter(like => like.user.toString() !== req.user.id );
+      await post.save();
+
+      res.json(post);
     }
   });
 
@@ -84,8 +87,8 @@ module.exports = app => {
     };
 
     post.comments.push(createComment);
-    const updatedPost = await post.save();
-    res.json(updatedPost);
+    await post.save();
+    res.json(post);
   });
 
   
